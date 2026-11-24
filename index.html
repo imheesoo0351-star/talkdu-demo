@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="궁금한 일을 하는 사람, 취향이 통하는 사람과 온라인에서 1:1로 대화해요.">
+  <meta name="theme-color" content="#ffffff">
+  <title>톡듀 | 궁금했던 사람과 온라인 1:1 대화</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+  <link rel="stylesheet" href="./style.css?v=ops6">
+  <script defer src="./admin-shared.js?v=ops6"></script>
+  <script defer src="./admin-ops.js?v=ops6"></script>
+  <script defer src="./app.js?v=ops6"></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- LOGIN -->
+    <div class="view view-stack" id="login-view" hidden>
+      <main class="stack-main login-main" id="login-main">
+        <p class="wordmark login-wordmark">talkdu</p>
+        <p class="login-lead">궁금했던 사람과 온라인 1:1로 이야기해요.</p>
+        <div class="login-actions">
+          <button type="button" class="btn-login btn-kakao" data-login="kakao">카카오로 시작하기</button>
+          <button type="button" class="btn-login btn-google" data-login="google">Google로 계속하기</button>
+          <button type="button" class="btn-login btn-apple" data-login="apple" hidden>Apple로 로그인</button>
+          <a class="btn-login btn-email" href="./email/index.html" data-login="email">
+            <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+            이메일로 시작하기
+          </a>
+          <button type="button" class="btn-text" data-login="browse">둘러보기</button>
+        </div>
+        <p class="note login-note">와이어프레임에서는 테스트 계정으로 로그인 흐름만 확인해요.</p>
+      </main>
+    </div>
+
+    <!-- NICKNAME ONBOARDING -->
+    <div class="view view-stack" id="nickname-view" hidden>
+      <header class="sub-header">
+        <span class="header-spacer"></span>
+        <h1 class="sub-header-title">닉네임 설정</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="nickname-main"></main>
+      <footer class="bottom-cta">
+        <button type="button" class="btn-primary" id="nickname-save">시작하기</button>
+      </footer>
+    </div>
+
+    <!-- HOME -->
+    <div class="view view-home" id="home-view">
+      <header class="top-header" id="home-header">
+        <a class="wordmark" href="./index.html">talkdu</a>
+        <div class="header-actions" data-auth-slot></div>
+      </header>
+      <main class="page-main home-main">
+        <section class="hero" aria-labelledby="hero-title">
+          <img class="hero-image" src="./hero.webp" alt="" fetchpriority="high">
+          <div class="hero-copy">
+            <p class="hero-label">온라인 1:1 대화</p>
+            <h1 id="hero-title">궁금했던 사람과<br>이야기해요.</h1>
+          </div>
+        </section>
+        <section class="category-section" id="categories" aria-label="대화 카테고리">
+          <h2 class="section-title category-section-title" id="category-title">카테고리</h2>
+          <div class="category-scroller" role="group" aria-label="카테고리 선택" aria-describedby="filter-status">
+            <button class="category" type="button" data-category="" aria-pressed="true">
+              <img class="category-icon" src="./assets/category-icons/all.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">전체</span>
+            </button>
+            <button class="category" type="button" data-category="voice" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/voice.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">보이스챗</span>
+            </button>
+            <button class="category" type="button" data-category="career" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/career.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">현직자</span>
+            </button>
+            <button class="category" type="button" data-category="creator" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/creator.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">크리에이터</span>
+            </button>
+            <button class="category" type="button" data-category="relationships" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/relationships.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">연애·관계</span>
+            </button>
+            <button class="category" type="button" data-category="study" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/study.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">공부·작업</span>
+            </button>
+            <button class="category" type="button" data-category="hobby" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/hobby.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">취미</span>
+            </button>
+            <button class="category" type="button" data-category="business" aria-pressed="false">
+              <img class="category-icon" src="./assets/category-icons/business.webp" alt="" width="42" height="42" draggable="false">
+              <span class="category-name">창업·부업</span>
+            </button>
+          </div>
+          <p class="filter-status" id="filter-status" role="status"></p>
+        </section>
+        <section class="helper-section" id="recommended" aria-labelledby="recommended-title">
+          <h2 id="recommended-title">추천 헬퍼</h2>
+          <div class="helper-list" id="recommended-cards"></div>
+        </section>
+        <section class="helper-section" id="new" aria-labelledby="new-title">
+          <h2 id="new-title">신규 헬퍼</h2>
+          <div class="helper-list" id="new-cards"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- EXPLORE -->
+    <div class="view view-explore" id="explore-view" hidden>
+      <header class="top-header" id="explore-header">
+        <a class="wordmark" href="./index.html">talkdu</a>
+        <div class="header-actions" data-auth-slot></div>
+      </header>
+      <main class="page-main explore-main" id="explore-main">
+        <label class="explore-search" for="explore-input">
+          <input id="explore-input" type="search" enterkeyhint="search" autocomplete="off" placeholder="헬퍼 이름이나 주제를 검색해 보세요" aria-label="헬퍼 검색">
+          <button type="button" class="search-clear" id="explore-clear" hidden aria-label="검색어 지우기">×</button>
+          <span class="explore-search-icon material-symbols-outlined" aria-hidden="true">search</span>
+        </label>
+        <div class="explore-toolbar" id="explore-toolbar">
+          <div class="explore-dropdowns">
+            <label class="explore-select-wrap">
+              <span class="visually-hidden">카테고리</span>
+              <select id="explore-category" class="explore-select" aria-label="카테고리"></select>
+            </label>
+            <label class="explore-select-wrap">
+              <span class="visually-hidden">정렬</span>
+              <select id="explore-sort" class="explore-select" aria-label="정렬">
+                <option value="recommended">추천순</option>
+                <option value="popular">인기순</option>
+                <option value="newest">신규순</option>
+                <option value="random">랜덤으로 보기</option>
+              </select>
+            </label>
+          </div>
+          <div class="explore-avail" role="group" aria-label="이용 가능 필터">
+            <button type="button" class="explore-avail-btn" id="explore-avail-now" data-explore-avail="online" aria-pressed="false">온라인</button>
+            <button type="button" class="explore-avail-btn" id="explore-avail-schedule" data-explore-avail="schedule" aria-pressed="false">예약 가능</button>
+          </div>
+        </div>
+        <div class="explore-chips" id="explore-chips" hidden></div>
+        <section class="explore-results-section" aria-labelledby="explore-title">
+          <h2 id="explore-title">추천 헬퍼</h2>
+          <div class="helper-list" id="explore-results"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="view view-stack" id="detail-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="detail-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">헬퍼 상세</h1>
+        <button type="button" class="icon-button wish-button" id="detail-wish" data-wish-toggle aria-label="찜">
+          <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+        </button>
+      </header>
+      <main class="stack-main" id="detail-main"></main>
+      <footer class="bottom-cta" id="detail-cta"></footer>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="view view-stack" id="schedule-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="schedule-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">시간 선택</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="schedule-main"></main>
+      <footer class="bottom-cta">
+        <button type="button" class="btn-primary" id="schedule-next" disabled>예약 내용 확인</button>
+      </footer>
+    </div>
+
+    <!-- CONFIRM -->
+    <div class="view view-stack" id="confirm-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="confirm-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title" id="confirm-title">예약 내용 확인</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="confirm-main"></main>
+      <footer class="bottom-cta" id="confirm-cta"></footer>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="view view-stack" id="payment-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="payment-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">코인 결제</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="payment-main"></main>
+      <footer class="bottom-cta" id="payment-cta"></footer>
+    </div>
+
+    <!-- WAITING (schedule accept) -->
+    <div class="view view-stack" id="waiting-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="waiting-back" aria-label="메시지로 이동">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">헬퍼 수락 대기</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="waiting-main"></main>
+      <footer class="bottom-cta" id="waiting-cta"></footer>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="view view-messages" id="messages-view" hidden>
+      <header class="top-header">
+        <h1 class="page-title">메시지</h1>
+      </header>
+      <main class="page-main" id="messages-main"></main>
+    </div>
+
+    <!-- CHAT -->
+    <div class="view view-stack" id="chat-view" hidden>
+      <header class="sub-header chat-header">
+        <button type="button" class="icon-button" id="chat-back" aria-label="목록으로">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="chat-header-copy">
+          <p class="chat-header-name" id="chat-helper-name"></p>
+          <p class="chat-header-meta" id="chat-meta"></p>
+        </div>
+        <button type="button" class="icon-button" id="chat-more" aria-label="더보기">
+          <span class="material-symbols-outlined" aria-hidden="true">more_horiz</span>
+        </button>
+      </header>
+      <main class="stack-main chat-main" id="chat-main"></main>
+      <div class="chat-sheet" id="chat-more-sheet" hidden>
+        <button type="button" data-chat-menu="report">신고하기</button>
+        <button type="button" data-chat-menu="block">차단하기</button>
+        <button type="button" class="sheet-cancel" data-chat-menu="close">닫기</button>
+      </div>
+      <div class="chat-sheet" id="chat-plus-sheet" hidden>
+        <button type="button" data-plus-action="call">
+          <span class="material-symbols-outlined" aria-hidden="true">call</span>
+          전화하기
+        </button>
+        <button type="button" data-plus-action="schedule" id="chat-plus-schedule">
+          <span class="material-symbols-outlined" aria-hidden="true">event</span>
+          <span id="chat-plus-schedule-label">일정 알리기</span>
+        </button>
+        <button type="button" class="sheet-cancel" data-plus-action="close">닫기</button>
+      </div>
+      <footer class="chat-composer">
+        <button type="button" class="icon-button composer-plus" id="chat-plus" aria-label="추가 메뉴">
+          <span class="material-symbols-outlined" aria-hidden="true">add</span>
+        </button>
+        <input id="chat-input" type="text" placeholder="메시지를 입력해 주세요" aria-label="메시지 입력">
+        <button type="button" class="btn-primary btn-compact" id="chat-send">보내기</button>
+      </footer>
+    </div>
+
+    <!-- CALL -->
+    <div class="view view-stack" id="call-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="call-back" aria-label="나가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">통화</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="call-main"></main>
+      <footer class="bottom-cta" id="call-cta"></footer>
+    </div>
+
+    <!-- USAGE RESULT -->
+    <div class="view view-stack" id="usage-result-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="usage-result-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">이용 결과</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="usage-result-main"></main>
+      <footer class="bottom-cta" id="usage-result-cta"></footer>
+    </div>
+
+    <!-- REVIEW WRITE -->
+    <div class="view view-stack" id="review-write-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="review-write-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">후기 작성</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="review-write-main"></main>
+      <footer class="bottom-cta" id="review-write-cta"></footer>
+    </div>
+
+    <!-- CONFIRM DIALOG -->
+    <div class="view view-stack" id="confirm-dialog-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="confirm-dialog-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title" id="confirm-dialog-title">확인</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="confirm-dialog-main"></main>
+      <footer class="bottom-cta" id="confirm-dialog-cta"></footer>
+    </div>
+
+    <!-- RESERVATION DETAIL -->
+    <div class="view view-stack" id="reservation-detail-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="reservation-detail-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">예약 상세</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="reservation-detail-main"></main>
+      <footer class="bottom-cta" id="reservation-detail-cta"></footer>
+    </div>
+
+    <!-- HELPER APPLY -->
+    <div class="view view-stack" id="helper-apply-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="helper-apply-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">헬퍼 신청</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="helper-apply-main"></main>
+      <footer class="bottom-cta" id="helper-apply-cta"></footer>
+    </div>
+
+    <!-- MANAGE (helper mode) -->
+    <div class="view view-messages" id="manage-view" hidden>
+      <header class="top-header manage-header">
+        <div>
+          <h1 class="page-title">관리</h1>
+          <p class="manage-page-status" id="manage-page-status"></p>
+        </div>
+        <button type="button" class="presence-toggle" id="presence-toggle" aria-pressed="false">오프라인</button>
+      </header>
+      <main class="page-main" id="manage-main"></main>
+    </div>
+
+    <!-- HELPER AVAILABILITY -->
+    <div class="view view-stack" id="helper-availability-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="helper-availability-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">시간 예약 설정</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="helper-availability-main"></main>
+      <footer class="bottom-cta" id="helper-availability-cta"></footer>
+    </div>
+
+    <!-- HELPER SERVICE EDIT -->
+    <div class="view view-stack" id="helper-service-edit-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="helper-service-edit-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">서비스 편집</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="helper-service-edit-main"></main>
+      <footer class="bottom-cta" id="helper-service-edit-cta"></footer>
+    </div>
+
+    <!-- WISHLIST -->
+    <div class="view view-messages" id="wishlist-view" hidden>
+      <header class="top-header"><h1 class="page-title">찜</h1></header>
+      <main class="page-main" id="wishlist-main"></main>
+    </div>
+
+    <!-- MYPAGE -->
+    <div class="view view-messages" id="mypage-view" hidden>
+      <header class="top-header"><h1 class="page-title">마이페이지</h1></header>
+      <main class="page-main" id="mypage-main"></main>
+    </div>
+
+    <!-- PROFILE EDIT -->
+    <div class="view view-stack" id="profile-edit-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="profile-edit-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">프로필 편집</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="profile-edit-main"></main>
+      <footer class="bottom-cta">
+        <button type="button" class="btn-primary" id="profile-save">저장하기</button>
+      </footer>
+    </div>
+
+    <!-- COIN HISTORY -->
+    <div class="view view-stack" id="coin-history-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="coin-history-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">코인 내역</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="coin-history-main"></main>
+    </div>
+
+    <!-- RESERVATIONS -->
+    <div class="view view-stack" id="reservations-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="reservations-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">내 예약</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="reservations-main"></main>
+    </div>
+
+    <!-- ADULT VERIFY -->
+    <div class="view view-stack" id="adult-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="adult-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">성인 인증</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="adult-main"></main>
+      <footer class="bottom-cta" id="adult-cta"></footer>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="view view-stack" id="settings-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="settings-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">설정</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="settings-main"></main>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="view view-stack" id="support-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="support-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">고객센터</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="support-main"></main>
+    </div>
+
+    <!-- CHARGE -->
+    <div class="view view-stack" id="charge-view" hidden>
+      <header class="sub-header">
+        <button type="button" class="icon-button" id="charge-back" aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="sub-header-title">코인 충전</h1>
+        <span class="header-spacer"></span>
+      </header>
+      <main class="stack-main" id="charge-main"></main>
+      <footer class="bottom-cta" id="charge-cta"></footer>
+    </div>
+
+    <template id="helper-card">
+      <article class="helper-card">
+        <button type="button" class="helper-card-body">
+          <span class="helper-avatar" aria-hidden="true">
+            <img class="helper-photo" alt="" width="72" height="72" decoding="async" hidden>
+            <span class="helper-avatar-fallback">
+              <svg viewBox="0 0 72 72"><rect width="72" height="72" rx="16" fill="#f2ecee"/><circle cx="36" cy="28" r="12" fill="#c9b4ba"/><path d="M14 60c4-12 13-18 22-18s18 6 22 18" fill="#c9b4ba"/></svg>
+            </span>
+          </span>
+          <span class="helper-copy">
+            <span class="helper-category"></span>
+            <span class="helper-name"></span>
+            <span class="helper-status" aria-label="상담·예약 상태"></span>
+            <span class="helper-intro"></span>
+            <span class="helper-rating"></span>
+          </span>
+        </button>
+        <button type="button" class="wish-button" data-wish-toggle aria-label="찜">
+          <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+        </button>
+      </article>
+    </template>
+
+    <nav class="bottom-nav" id="bottom-nav" aria-label="하단 메뉴">
+      <button type="button" class="nav-item is-active" data-nav="home"><span class="material-symbols-outlined nav-ico" aria-hidden="true">home</span><span>홈</span></button>
+      <button type="button" class="nav-item" data-nav="explore"><span class="material-symbols-outlined nav-ico" aria-hidden="true">search</span><span>탐색</span></button>
+      <button type="button" class="nav-item" data-nav="messages"><span class="material-symbols-outlined nav-ico" aria-hidden="true">chat_bubble</span><span>메시지</span></button>
+      <button type="button" class="nav-item nav-role-customer" data-nav="wishlist"><span class="material-symbols-outlined nav-ico" aria-hidden="true">favorite</span><span>찜</span></button>
+      <button type="button" class="nav-item nav-role-helper" data-nav="manage" hidden><span class="material-symbols-outlined nav-ico" aria-hidden="true">dashboard</span><span>관리</span></button>
+      <button type="button" class="nav-item" data-nav="mypage"><span class="material-symbols-outlined nav-ico" aria-hidden="true">person</span><span>마이페이지</span></button>
+    </nav>
+  </div>
+</body>
+</html>
