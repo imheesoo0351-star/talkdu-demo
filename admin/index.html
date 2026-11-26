@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>톡듀 운영자 데모</title>
+  <link rel="stylesheet" href="../style.css?v=demo3">
+  <link rel="stylesheet" href="./admin.css?v=demo3">
+  <script defer src="../admin-shared.js?v=demo3"></script>
+  <script defer src="../admin-ops.js?v=demo3"></script>
+  <script defer src="../demo-boot.js?v=demo3"></script>
+  <script defer src="./admin.js?v=demo3"></script>
+</head>
+<body class="admin-body" data-admin-page="app">
+  <div class="admin-desktop" id="admin-app" hidden>
+    <aside class="admin-sidebar" aria-label="운영 메뉴">
+      <div class="admin-sidebar-brand">
+        <p class="wordmark">talkdu</p>
+        <p class="admin-sidebar-sub">운영자 데모</p>
+      </div>
+      <nav class="admin-side-nav" id="admin-side-nav"></nav>
+    </aside>
+    <div class="admin-desktop-main">
+      <header class="admin-topbar">
+        <div>
+          <h1 class="admin-topbar-title" id="admin-top-title">운영 홈</h1>
+          <p class="admin-topbar-note" id="admin-top-note">처리할 항목과 바로가기</p>
+        </div>
+        <div class="admin-topbar-right">
+          <span class="admin-account" id="admin-account-label">운영자</span>
+          <a class="btn-text" href="../index.html">데모 홈</a>
+          <button type="button" class="btn-text" id="admin-logout">로그아웃</button>
+        </div>
+      </header>
+      <main class="admin-content" id="admin-main"></main>
+    </div>
+  </div>
+
+  <div class="admin-shell admin-shell-login" id="admin-gate" hidden>
+    <main class="admin-login-card">
+      <p class="wordmark">talkdu</p>
+      <h1 class="admin-title" id="admin-gate-title">운영자 데모</h1>
+      <p class="note" id="admin-gate-body">예시 운영자로 바로 입장할 수 있어요. 승인·반려·코인 반환은 이 브라우저 로컬 저장소에만 반영돼요.</p>
+      <div class="admin-actions">
+        <button type="button" class="btn-primary" id="admin-demo-enter">데모 운영자로 입장</button>
+        <a class="btn-text" href="../index.html">← 데모 홈</a>
+      </div>
+    </main>
+  </div>
+
+  <div class="admin-modal" id="admin-modal" hidden>
+    <div class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+      <h2 id="admin-modal-title">확인</h2>
+      <div id="admin-modal-body"></div>
+      <div class="admin-modal-actions">
+        <button type="button" class="btn-secondary" id="admin-modal-cancel">취소</button>
+        <button type="button" class="btn-primary" id="admin-modal-confirm">확인</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

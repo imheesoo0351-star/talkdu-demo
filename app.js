@@ -2,24 +2,24 @@
 
 const categoryNames = new Map([
   ["", "전체"],
-  ["voice", "취향 보이스챗"],
-  ["career", "업계 사람에게 묻기"],
-  ["creator", "크리에이터 1:1"],
-  ["relationships", "연애·인간관계"],
-  ["study", "공부·작업 메이트"],
-  ["hobby", "취미 같이하기"],
-  ["business", "창업·부업 커피챗"],
+  ["voice", "보이스챗"],
+  ["career", "커피챗"],
+  ["creator", "크리에이터"],
+  ["relationships", "연애"],
+  ["study", "공부"],
+  ["hobby", "취미"],
+  ["business", "창업"],
 ]);
 
 const categoryChips = [
   { id: "", label: "전체", title: "추천 헬퍼" },
   { id: "voice", label: "보이스챗", title: "보이스챗 헬퍼" },
-  { id: "career", label: "현직자", title: "현직자 헬퍼" },
+  { id: "career", label: "커피챗", title: "커피챗 헬퍼" },
   { id: "creator", label: "크리에이터", title: "크리에이터 헬퍼" },
-  { id: "relationships", label: "연애·관계", title: "연애·관계 헬퍼" },
-  { id: "study", label: "공부·작업", title: "공부·작업 헬퍼" },
+  { id: "relationships", label: "연애", title: "연애 헬퍼" },
+  { id: "study", label: "공부", title: "공부 헬퍼" },
   { id: "hobby", label: "취미", title: "취미 헬퍼" },
-  { id: "business", label: "창업·부업", title: "창업·부업 헬퍼" },
+  { id: "business", label: "창업", title: "창업 헬퍼" },
 ];
 
 const helpers = [
@@ -233,6 +233,7 @@ const views = {
   manage: document.getElementById("manage-view"),
   helperAvailability: document.getElementById("helper-availability-view"),
   helperServiceEdit: document.getElementById("helper-service-edit-view"),
+  helperProfileEdit: document.getElementById("helper-profile-edit-view"),
   wishlist: document.getElementById("wishlist-view"),
   mypage: document.getElementById("mypage-view"),
   profileEdit: document.getElementById("profile-edit-view"),
@@ -288,6 +289,9 @@ const helperAvailabilityMain = document.getElementById("helper-availability-main
 const helperAvailabilityCta = document.getElementById("helper-availability-cta");
 const helperServiceEditMain = document.getElementById("helper-service-edit-main");
 const helperServiceEditCta = document.getElementById("helper-service-edit-cta");
+const helperServiceEditTitle = document.getElementById("helper-service-edit-title");
+const helperProfileEditMain = document.getElementById("helper-profile-edit-main");
+const helperProfileEditCta = document.getElementById("helper-profile-edit-cta");
 const adultMain = document.getElementById("adult-main");
 const navWishlist = document.querySelector('.nav-item[data-nav="wishlist"]');
 const navManage = document.querySelector('.nav-item[data-nav="manage"]');
@@ -348,7 +352,7 @@ const CATEGORY_SERVICE_TYPES = {
     { id: "career-resume", label: "이력서·자소서 피드백" },
     { id: "career-portfolio", label: "포트폴리오 피드백" },
     { id: "career-interview", label: "면접 대비" },
-    { id: "career-careerpath", label: "이직·커리어 상담" },
+    { id: "career-careerpath", label: "이직·커리어 Q&A" },
   ],
   voice: [
     { id: "voice-movie", label: "요즘 영화 이야기" },
@@ -359,13 +363,13 @@ const CATEGORY_SERVICE_TYPES = {
   creator: [
     { id: "creator-photo", label: "사진 작업 비하인드" },
     { id: "creator-feedback", label: "콘텐츠 피드백" },
-    { id: "creator-growth", label: "채널 성장 상담" },
+    { id: "creator-growth", label: "채널 성장 이야기" },
     { id: "creator-portfolio", label: "포트폴리오 점검" },
   ],
   relationships: [
     { id: "rel-reply", label: "소개팅 답장 고민" },
     { id: "rel-coaching", label: "연애 대화 코칭" },
-    { id: "rel-boundary", label: "관계 정리 상담" },
+    { id: "rel-boundary", label: "연애·관계 이야기" },
     { id: "rel-first", label: "초반 만남 조언" },
   ],
   study: [
@@ -378,11 +382,11 @@ const CATEGORY_SERVICE_TYPES = {
     { id: "hobby-film", label: "첫 필름카메라 고르기" },
     { id: "hobby-guide", label: "취미 입문 가이드" },
     { id: "hobby-feedback", label: "작품 피드백" },
-    { id: "hobby-gear", label: "장비·재료 상담" },
+    { id: "hobby-gear", label: "장비·재료 고르기" },
   ],
   business: [
     { id: "biz-idea", label: "창업 아이디어 점검" },
-    { id: "biz-side", label: "부업 시작 상담" },
+    { id: "biz-side", label: "부업 시작 이야기" },
     { id: "biz-exec", label: "사업 실행 피드백" },
     { id: "biz-pitch", label: "피치·소개 다듬기" },
   ],
@@ -412,13 +416,13 @@ function intendedServiceLabels(list, category) {
 
 function proofHint(category) {
   const map = {
-    career: "현직자 상담은 경력 자료나 확인 가능한 링크가 있으면 심사가 더 수월해요. 필수는 아니에요.",
+    career: "커피챗은 경력 자료나 확인 가능한 링크가 있으면 심사가 더 수월해요. 필수는 아니에요.",
     creator: "크리에이터는 채널이나 포트폴리오 링크를 남겨 주시면 좋아요. 필수는 아니에요.",
     voice: "보이스챗은 활동 소개만으로도 충분할 수 있어요. 관련 링크는 선택이에요.",
-    relationships: "연애·관계 상담은 관련 활동이나 소개 링크가 있으면 참고해요. 필수는 아니에요.",
-    study: "공부·작업 메이트는 관련 루틴이나 자료 링크를 선택으로 남겨 주세요.",
+    relationships: "연애는 관련 활동이나 소개 링크가 있으면 참고해요. 필수는 아니에요.",
+    study: "공부는 관련 루틴이나 자료 링크를 선택으로 남겨 주세요.",
     hobby: "취미는 작품·활동 링크가 있으면 도움이 돼요. 필수는 아니에요.",
-    business: "창업·부업은 사업/프로젝트 소개 링크를 선택으로 남겨 주세요.",
+    business: "창업은 사업/프로젝트 소개 링크를 선택으로 남겨 주세요.",
   };
   return map[category] || "관련 자료를 선택으로 남겨 주시면 심사에 참고해요. 모든 카테고리에서 필수는 아니에요.";
 }
@@ -573,6 +577,8 @@ const state = {
   availabilityError: "",
   serviceEditId: null,
   serviceEditDraft: null,
+  serviceEditIsNew: false,
+  helperProfileEditDraft: null,
   previewDraft: false,
   exploreCategory: "",
   exploreSort: "recommended", // recommended | popular | newest | random
@@ -657,7 +663,7 @@ function applyOpsHomeConfig() {
   const cats = (cfg.categories || []).slice().sort((a, b) => a.order - b.order);
   for (const c of cats) {
     if (c.id) {
-      categoryNames.set(c.id, c.homeLabel || c.name || categoryNames.get(c.id) || c.id);
+      categoryNames.set(c.id, c.name || c.homeLabel || categoryNames.get(c.id) || c.id);
     }
   }
   // Update home category chip labels without breaking id links.
@@ -948,7 +954,7 @@ function serviceSupportsNow(service) {
 
 function presenceLabel(profile) {
   if (!profile) return "오프라인";
-  if (profile.busy) return "상담 중";
+  if (profile.busy) return "대화 중";
   return profile.online ? "온라인" : "오프라인";
 }
 
@@ -961,16 +967,16 @@ function isHelperOnlineForNow(helperId) {
 function canAcceptNowConsult(helperId) {
   const ops = getHelperOps(helperId);
   if (!ops) {
-    return { ok: false, reason: "헬퍼가 오프라인이라 지금 상담을 요청할 수 없어요." };
+    return { ok: false, reason: "헬퍼가 오프라인이라 지금 대화를 요청할 수 없어요." };
   }
   if (ops.pageStatus !== "published") {
-    return { ok: false, reason: "헬퍼 상세페이지가 아직 공개되지 않아 지금 상담을 요청할 수 없어요." };
+    return { ok: false, reason: "헬퍼 상세페이지가 아직 공개되지 않아 지금 대화를 요청할 수 없어요." };
   }
   if (ops.busy) {
-    return { ok: false, reason: "헬퍼가 상담 중이라 지금 상담을 받을 수 없어요." };
+    return { ok: false, reason: "헬퍼가 대화 중이라 지금 대화를 받을 수 없어요." };
   }
   if (!ops.online) {
-    return { ok: false, reason: "헬퍼가 오프라인이라 지금 상담을 요청할 수 없어요." };
+    return { ok: false, reason: "헬퍼가 오프라인이라 지금 대화를 요청할 수 없어요." };
   }
   return { ok: true, reason: "" };
 }
@@ -1012,7 +1018,7 @@ function getHelperListingStatus(helperId) {
   if (hasNowService) {
     const accept = canAcceptNowConsult(helperId);
     const ops = getHelperOps(helperId);
-    if (ops?.busy) presence = { kind: "busy", text: "상담 중" };
+    if (ops?.busy) presence = { kind: "busy", text: "대화 중" };
     else if (accept.ok) presence = { kind: "online", text: "온라인" };
     else presence = { kind: "offline", text: "오프라인" };
   }
@@ -1048,9 +1054,23 @@ function refreshHelperDiscovery() {
 
 function serviceModeSupportLabel(service) {
   const parts = [];
-  if (serviceSupportsNow(service)) parts.push("지금 상담");
+  if (serviceSupportsNow(service)) parts.push("지금 대화");
   if ((service?.modes || []).includes("schedule")) parts.push("시간 예약");
   return parts.join(" · ");
+}
+
+function serviceModeKey(service) {
+  const parts = [];
+  if (serviceSupportsNow(service)) parts.push("chat");
+  if ((service?.modes || []).includes("schedule")) parts.push("schedule");
+  return parts.join("|");
+}
+
+function applyServiceModeTone(el, service, helperId) {
+  if (!el || !service) return;
+  if (serviceSupportsNow(service) && canAcceptNowConsult(helperId).ok) {
+    el.classList.add("is-now-open");
+  }
 }
 
 function isNowConsult(convo) {
@@ -1562,7 +1582,7 @@ function profileAvatarHtml(photo, sizeClass = "") {
 function formatCoins(n) { return n.toLocaleString("ko-KR") + "코인"; }
 function formatWon(n) { return n.toLocaleString("ko-KR") + "원"; }
 function modeLabel(mode) {
-  if (mode === "chat" || mode === "now") return "지금 상담";
+  if (mode === "chat" || mode === "now") return "지금 대화";
   return "시간 예약";
 }
 function statusLabel(status) {
@@ -1782,7 +1802,7 @@ function ensureFileOriginBanner() {
   banner.id = "file-origin-banner";
   banner.className = "banner-warn";
   banner.style.cssText = "margin:0;border-radius:0;padding:10px 16px;font-size:13px;line-height:1.45;";
-  banner.innerHTML = `지금 주소는 파일 직접 열기예요. 이메일 로그인·운영자 심사·헬퍼 신청 동기화는 <a href="${href}">${href}</a>처럼 로컬 주소로 열어야 같은 저장소를 써요. 홈 둘러보기·카카오/Google 테스트 로그인은 이 파일에서도 확인할 수 있어요.`;
+  banner.innerHTML = `지금 주소는 파일 직접 열기예요. 홈 둘러보기와 카카오/Google 로그인 데모는 이 파일에서도 확인할 수 있어요. 이메일 로그인을 여러 탭에서 이어서 보려면 <a href="${href}">${href}</a>처럼 로컬 주소로 열어 주세요.`;
   app?.prepend(banner);
 }
 
@@ -2097,31 +2117,60 @@ function renderDetail() {
   if (!hasServices) {
     services.innerHTML += '<p class="empty">서비스를 준비 중이에요</p>';
   } else {
+    const visibleServices = helper.services.slice(0, 5);
+    const modeKeys = visibleServices.map((item) => serviceModeKey(item));
+    const sharedModeKey = modeKeys.every((key) => key && key === modeKeys[0]) ? modeKeys[0] : null;
+    if (sharedModeKey) {
+      const common = document.createElement("p");
+      common.className = "service-modes-common";
+      common.textContent = serviceModeSupportLabel(visibleServices[0]);
+      applyServiceModeTone(common, visibleServices[0], helper.id);
+      services.append(common);
+    }
     const list = document.createElement("div");
     list.className = "service-list";
-    for (const item of helper.services.slice(0, 5)) {
+    for (const item of visibleServices) {
+      const selected = Boolean(service && item.id === service.id);
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "service-card" + (service && item.id === service.id ? " is-selected" : "");
+      btn.className = "service-card" + (selected ? " is-selected" : "");
       btn.dataset.serviceId = item.id;
-      btn.setAttribute("aria-pressed", String(Boolean(service && item.id === service.id)));
-      btn.innerHTML = `<span class="service-name"></span><span class="service-modes"></span><span class="service-desc"></span><span class="service-meta"></span>`;
-      btn.querySelector(".service-name").textContent = item.name;
+      btn.setAttribute("aria-pressed", String(selected));
+      btn.setAttribute("aria-label", selected ? `${item.name} 선택됨` : `${item.name} 선택`);
+      btn.innerHTML = `
+        <span class="service-card-top">
+          <span class="service-name"></span>
+          <span class="service-check" aria-hidden="true">${selected ? "✓" : ""}</span>
+        </span>
+        <span class="service-modes" hidden></span>
+        <span class="service-desc"></span>
+        <span class="service-meta-row">
+          <span class="service-duration"></span>
+          <span class="service-price"></span>
+        </span>`;
+      const nameEl = btn.querySelector(".service-name");
+      nameEl.textContent = item.name;
       if (serviceRequiresAdult(item)) {
-        btn.querySelector(".service-name").insertAdjacentHTML("beforeend", " " + adultBadgeHtml());
+        nameEl.insertAdjacentHTML("beforeend", " " + adultBadgeHtml());
       }
-      const modeLabel = serviceModeSupportLabel(item);
       const modesEl = btn.querySelector(".service-modes");
-      if (modeLabel) {
-        modesEl.textContent = modeLabel;
-        if (serviceSupportsNow(item) && canAcceptNowConsult(helper.id).ok) {
-          modesEl.classList.add("is-now-open");
+      if (!sharedModeKey) {
+        const modeLabel = serviceModeSupportLabel(item);
+        if (modeLabel) {
+          modesEl.hidden = false;
+          modesEl.textContent = modeLabel;
+          applyServiceModeTone(modesEl, item, helper.id);
+        } else {
+          modesEl.remove();
         }
       } else {
         modesEl.remove();
       }
-      btn.querySelector(".service-desc").textContent = item.description || "";
-      btn.querySelector(".service-meta").textContent = item.minutes + "분 · " + formatCoins(item.coins);
+      const descEl = btn.querySelector(".service-desc");
+      if (item.description) descEl.textContent = item.description;
+      else descEl.remove();
+      btn.querySelector(".service-duration").textContent = (item.minutes || 0) + "분";
+      btn.querySelector(".service-price").textContent = formatCoins(item.coins || 0);
       list.append(btn);
     }
     services.append(list);
@@ -2223,9 +2272,9 @@ function renderDetailCta() {
   detailCta.querySelector(".cta-price").textContent = service.minutes + "분 · " + formatCoins(service.coins);
   const presenceEl = detailCta.querySelector("#detail-presence");
   if (serviceSupportsNow(service)) {
-    if (ops?.busy) presenceEl.textContent = "상담 중";
-    else if (ops?.online) presenceEl.textContent = "온라인 · 지금 상담 가능";
-    else presenceEl.textContent = "오프라인 · 지금 상담 불가";
+    if (ops?.busy) presenceEl.textContent = "대화 중";
+    else if (ops?.online) presenceEl.textContent = "온라인 · 지금 대화 가능";
+    else presenceEl.textContent = "오프라인 · 지금 대화 불가";
   } else {
     presenceEl.textContent = "";
   }
@@ -2235,8 +2284,8 @@ function renderDetailCta() {
     const note = document.createElement("p");
     note.className = "note";
     note.style.margin = "0";
-    if (ops?.busy && serviceSupportsNow(service)) note.textContent = "헬퍼가 상담 중이에요. 잠시 후 다시 시도해 주세요.";
-    else if (serviceSupportsNow(service) && !ops?.online) note.textContent = "헬퍼가 오프라인이라 지금 상담을 요청할 수 없어요.";
+    if (ops?.busy && serviceSupportsNow(service)) note.textContent = "헬퍼가 대화 중이에요. 잠시 후 다시 시도해 주세요.";
+    else if (serviceSupportsNow(service) && !ops?.online) note.textContent = "헬퍼가 오프라인이라 지금 대화를 요청할 수 없어요.";
     else if ((service.modes || []).includes("schedule") && !serviceHasBookableSlots(helper.id, service)) {
       note.textContent = "지금은 선택할 수 있는 예약 시간이 없어요.";
     } else note.textContent = "지금은 새 예약을 받지 않아요. 이미 진행 중인 예약은 이어서 이용할 수 있어요.";
@@ -2254,7 +2303,7 @@ function renderDetailCta() {
     nowBtn.type = "button";
     nowBtn.className = "btn-primary";
     nowBtn.dataset.mode = "chat";
-    nowBtn.textContent = "지금 상담 요청";
+    nowBtn.textContent = "지금 대화 요청";
     row.append(scheduleBtn, nowBtn);
     return;
   }
@@ -2270,7 +2319,7 @@ function renderDetailCta() {
       const note = document.createElement("p");
       note.className = "note";
       note.style.margin = "0";
-      note.textContent = "오프라인이라 지금 상담은 요청할 수 없어요.";
+      note.textContent = "오프라인이라 지금 대화는 요청할 수 없어요.";
       row.append(note);
     }
     return;
@@ -2280,7 +2329,7 @@ function renderDetailCta() {
   btn.type = "button";
   btn.className = "btn-primary";
   btn.dataset.mode = "chat";
-  btn.textContent = "지금 상담 요청";
+  btn.textContent = "지금 대화 요청";
   row.append(btn);
 }
 
@@ -2406,10 +2455,10 @@ function renderConfirm() {
   const day = buildBookingDays(helper.id).find((d) => d.date === state.selectedDate)
     || defaultSchedule.find((d) => d.date === state.selectedDate);
   const isNow = state.bookingMode === "chat" || state.bookingMode === "now";
-  confirmTitle.textContent = isNow ? "지금 상담 확인" : "예약 내용 확인";
+  confirmTitle.textContent = isNow ? "지금 대화 확인" : "예약 내용 확인";
 
   confirmMain.innerHTML = `
-    <section class="info-card"><h2 class="section-title">${isNow ? "상담 내용" : "예약 내용"}</h2><dl id="confirm-dl"></dl>
+    <section class="info-card"><h2 class="section-title">${isNow ? "대화 내용" : "예약 내용"}</h2><dl id="confirm-dl"></dl>
     <p class="note">${isNow
       ? "헬퍼가 수락하면 그때 코인이 차감되고 통화방으로 입장해요. 거절되거나 응답이 만료되면 코인은 차감되지 않아요."
       : "결제는 다음 단계에서 진행해요. 지금은 내용을 확인만 해요."}</p></section>`;
@@ -2436,7 +2485,7 @@ function renderConfirm() {
   }
 
   confirmCta.innerHTML = isNow
-    ? '<button type="button" class="btn-primary" id="confirm-request-now">상담 요청하기</button>'
+    ? '<button type="button" class="btn-primary" id="confirm-request-now">대화 요청하기</button>'
     : '<button type="button" class="btn-primary" id="confirm-to-pay">코인 결제하기</button>';
 }
 
@@ -2688,7 +2737,7 @@ function requestNowConsult() {
     return;
   }
   if (hasNowTimeConflict(helper.id, service.minutes)) {
-    state.authBanner = "이미 잡힌 예약과 시간이 겹쳐 지금 상담을 요청할 수 없어요.";
+    state.authBanner = "이미 잡힌 예약과 시간이 겹쳐 지금 대화를 요청할 수 없어요.";
     showView("detail", { immersive: true });
     renderDetail();
     return;
@@ -2699,17 +2748,17 @@ function requestNowConsult() {
   state.selectedTime = stamp.time;
   const convo = createConversation({
     status: "waiting_accept",
-    lastMessage: "지금 상담 수락을 기다리고 있어요.",
+    lastMessage: "지금 대화 수락을 기다리고 있어요.",
   });
   convo.payOnAccept = true;
   convo.coinsPaid = 0;
   convo.coinsDue = service.coins;
-  convo.confirmedLabel = "지금 상담";
+  convo.confirmedLabel = "지금 대화";
   convo.callReady = false;
   addMessage(convo, {
     type: "system",
-    text: "지금 상담을 요청했어요. 헬퍼가 수락하면 코인이 차감되고 통화방이 열려요. 거절·만료 시 코인은 차감되지 않아요.",
-    preview: "지금 상담 요청",
+    text: "지금 대화를 요청했어요. 헬퍼가 수락하면 코인이 차감되고 통화방이 열려요. 거절·만료 시 코인은 차감되지 않아요.",
+    preview: "지금 대화 요청",
   });
   state.activeConversationId = convo.id;
   state.chatReturn = { type: "messages" };
@@ -2723,7 +2772,7 @@ function showWaiting(conversationId) {
   const nowMode = isNowConsult(convo);
   waitingMain.innerHTML = `
     <section class="info-card">
-      <h2 class="section-title">${nowMode ? "지금 상담 수락을 기다려 주세요" : "헬퍼 수락을 기다려 주세요"}</h2>
+      <h2 class="section-title">${nowMode ? "지금 대화 수락을 기다려 주세요" : "헬퍼 수락을 기다려 주세요"}</h2>
       <p class="note">${nowMode
         ? `${convo.helperName} 헬퍼가 수락하면 코인이 차감되고 통화방으로 입장해요.`
         : `${convo.helperName} 헬퍼가 예약을 확인하면 채팅방이 열려요.`}</p>
@@ -2735,7 +2784,7 @@ function showWaiting(conversationId) {
   const dds = waitingMain.querySelectorAll("dd");
   dds[0].textContent = convo.serviceName;
   if (nowMode) {
-    dds[1].textContent = "지금 상담";
+    dds[1].textContent = "지금 대화";
     dds[2].textContent = formatCoins(convo.coinsDue || convo.coinsPaid || 0);
   } else {
     const day = defaultSchedule.find((d) => d.date === convo.date);
@@ -2775,12 +2824,12 @@ function acceptNowConsult(id) {
   }
   const ops = getHelperOps(convo.helperId);
   if (ops?.busy && ops.busyConversationId !== convo.id) {
-    state.authBanner = "이미 다른 상담을 진행 중이에요.";
+    state.authBanner = "이미 다른 대화를 진행 중이에요.";
     if (state.helperMode) showManage();
     return;
   }
   if (ops && !ops.online && !ops.busy) {
-    state.authBanner = "오프라인 상태에서는 지금 상담을 수락할 수 없어요.";
+    state.authBanner = "오프라인 상태에서는 지금 대화를 수락할 수 없어요.";
     if (state.helperMode) showManage();
     return;
   }
@@ -2800,20 +2849,20 @@ function acceptNowConsult(id) {
   }
 
   state.coinBalance -= due;
-  addCoinHistory("spend", due, `${convo.helperName} · ${convo.serviceName} · 지금 상담`);
+  addCoinHistory("spend", due, `${convo.helperName} · ${convo.serviceName} · 지금 대화`);
   convo.coinsPaid = due;
   convo.charged = true;
   convo.status = "confirmed";
   convo.time = stamp.time;
   convo.date = stamp.date;
-  convo.confirmedLabel = "지금 상담";
+  convo.confirmedLabel = "지금 대화";
   convo.callReady = true;
   setHelperBusy(convo.helperId, convo.id);
   persistLocal();
   addMessage(convo, {
     type: "system",
-    text: `헬퍼가 지금 상담을 수락했어요. ${formatCoins(due)}이 차감됐고 통화방에 입장할 수 있어요.`,
-    preview: "지금 상담 수락",
+    text: `헬퍼가 지금 대화를 수락했어요. ${formatCoins(due)}이 차감됐고 통화방에 입장할 수 있어요.`,
+    preview: "지금 대화 수락",
   });
   state.activeConversationId = convo.id;
   state.callReturn = state.helperMode ? "manage" : "chat";
@@ -2828,8 +2877,8 @@ function rejectNowConsult(id, type = "reject") {
   addMessage(convo, {
     type: "system",
     text: type === "expire"
-      ? "수락 기한이 지나 지금 상담 요청이 취소됐어요. 코인은 차감되지 않았어요."
-      : "헬퍼가 지금 상담을 거절했어요. 코인은 차감되지 않았어요.",
+      ? "수락 기한이 지나 지금 대화 요청이 취소됐어요. 코인은 차감되지 않았어요."
+      : "헬퍼가 지금 대화를 거절했어요. 코인은 차감되지 않았어요.",
     preview: type === "expire" ? "만료 · 차감 없음" : "거절 · 차감 없음",
   });
   if (state.helperMode) showManage();
@@ -3659,7 +3708,7 @@ function renderMypage() {
   if (sanction) {
     const until = sanction.until ? ` · ~${String(sanction.until).slice(0, 10)}` : "";
     const features = Array.isArray(sanction.features) && sanction.features.length
-      ? ` · 제한: ${sanction.features.map((f) => ({ messages: "메시지", schedule: "신규 예약", now: "지금 상담" }[f] || f)).join(", ")}`
+      ? ` · 제한: ${sanction.features.map((f) => ({ messages: "메시지", schedule: "신규 예약", now: "지금 대화" }[f] || f)).join(", ")}`
       : "";
     const kind = sanction.type === "warn" ? "경고" : sanction.type === "timed" ? "기간 제한" : sanction.type === "suspend" ? "계정 정지" : "이용 안내";
     sanctionBanner = `<div class="banner-warn">${kind}${until}${features}<br>${sanction.reason || "운영자가 이용 범위를 안내했어요."}</div>`;
@@ -4333,7 +4382,10 @@ function renderManage() {
     exitHelperMode();
     return;
   }
-  managePageStatus.textContent = profile.pageStatus === "published" ? "상세페이지 · 공개 중" : "상세페이지 · 준비 중";
+  if (managePageStatus) {
+    managePageStatus.textContent = "";
+    managePageStatus.hidden = true;
+  }
   updatePresenceToggle(profile);
   let body = `
     <div class="manage-tabs">
@@ -4355,7 +4407,7 @@ function updatePresenceToggle(profile) {
   btn.dataset.presence = profile.busy ? "busy" : (profile.online ? "online" : "offline");
   btn.setAttribute("aria-pressed", String(Boolean(profile.online) && !profile.busy));
   btn.disabled = Boolean(profile.busy);
-  btn.title = profile.busy ? "상담이 끝나면 설정한 온라인·오프라인 상태로 돌아가요." : "눌러 온라인/오프라인을 바꿔요.";
+  btn.title = profile.busy ? "대화가 끝나면 설정한 온라인·오프라인 상태로 돌아가요." : "눌러 온라인/오프라인을 바꿔요.";
 }
 
 function renderManageBookings() {
@@ -4393,8 +4445,8 @@ function renderManageBookings() {
       : (convo.confirmedLabel || "일정 조율 중");
     html += `<article class="manage-card" data-manage-convo="${convo.id}">
       <h3>${convo.customerName || "고객"} · ${convo.serviceName}</h3>
-      <p class="meta">${convo.mode === "schedule" ? "시간 지정 예약" : (isNowConsult(convo) || convo.mode === "chat" ? "지금 상담" : modeLabel(convo.mode))} · ${statusLabel(convo.status)}</p>
-      <p class="meta">요청/일정: ${isNowConsult(convo) ? "지금 상담" : (when || "-")}</p>`;
+      <p class="meta">${convo.mode === "schedule" ? "시간 지정 예약" : (isNowConsult(convo) || convo.mode === "chat" ? "지금 대화" : modeLabel(convo.mode))} · ${statusLabel(convo.status)}</p>
+      <p class="meta">요청/일정: ${isNowConsult(convo) ? "지금 대화" : (when || "-")}</p>`;
     if (convo.status === "waiting_accept") {
       html += `<p class="meta">응답 기한: ${formatRespondBy(convo.respondBy)}</p>
         ${isNowConsult(convo) ? `<p class="meta">수락 시 ${formatCoins(convo.coinsDue || 0)} 차감 · 거절·만료 시 차감 없음</p>` : ""}
@@ -4463,37 +4515,14 @@ function renderManageIntake(profile) {
     </section>
     <section class="manage-card">
       <h3>서비스별 예약 방식</h3>
-      <p class="meta">시간 예약·지금 상담 지원 여부는 내 프로필·서비스에서 바꿀 수 있어요.</p>
+      <p class="meta">시간 예약·지금 대화 지원 여부는 내 프로필·서비스에서 바꿀 수 있어요.</p>
       <div class="actions">
         <button type="button" class="btn-secondary" data-intake-action="to-profile">내 프로필·서비스로 이동</button>
       </div>
     </section>`;
 }
 
-function publishStatusMeta(profile) {
-  if (profile.pageStatus === "published" && profile.publishStatus === "published") {
-    const draftDirty = JSON.stringify(profile.draft) !== JSON.stringify(profile.published);
-    return draftDirty ? "공개 중 · 미공개 변경사항 있음" : "고객에게 공개 중";
-  }
-  if (profile.publishStatus === "pending_review") return "미공개 초안 (이전 검토 요청 → 직접 공개로 이어갈 수 있어요)";
-  if (profile.publishStatus === "revision") return "미공개 초안 (이전 보완 요청 내용을 반영해 공개할 수 있어요)";
-  return "미공개 초안";
-}
-
-function draftDiffersFromPublished(profile) {
-  if (!profile?.published) return true;
-  try {
-    return JSON.stringify(profile.draft) !== JSON.stringify(profile.published);
-  } catch {
-    return true;
-  }
-}
-
 function renderManageProfile(profile) {
-  const draft = profile.draft;
-  const isLive = profile.pageStatus === "published" && profile.published;
-  const dirty = isLive && draftDiffersFromPublished(profile);
-  const publishLabel = isLive ? (dirty ? "변경사항 공개" : "공개됨") : "공개하기";
   const banner = state.authBanner
     ? `<div class="banner-ok">${state.authBanner}</div>`
     : "";
@@ -4501,27 +4530,14 @@ function renderManageProfile(profile) {
   return `
     <h2 class="manage-section-title">내 프로필·서비스</h2>
     ${banner}
+    <div class="actions manage-profile-actions">
+      <button type="button" class="btn-secondary" data-profile-action="edit-profile">프로필 수정</button>
+      <button type="button" class="btn-primary" data-profile-action="add-service">서비스 등록</button>
+      <button type="button" class="btn-text" data-profile-action="preview">상세 미리보기</button>
+    </div>
     <section class="manage-card">
-      <h3>프로필 초안</h3>
-      <p class="meta">활동명: ${draft.publicName || "-"}</p>
-      <p class="meta">한 줄 소개: ${draft.intro || "-"}</p>
-      <p class="meta">공개 상태: ${publishStatusMeta(profile)}</p>
-      ${profile.publishRevisionNote ? `<div class="banner-warn">${profile.publishRevisionNote}</div>` : ""}
-      <div class="actions">
-        <button type="button" class="btn-secondary" data-profile-action="edit-profile">프로필 초안 수정</button>
-        <button type="button" class="btn-text" data-profile-action="preview">고객용 상세 미리보기</button>
-      </div>
-    </section>
-    <section class="manage-card">
-      <h3>서비스 초안</h3>
+      <h3>등록한 서비스</h3>
       <div id="draft-service-list"></div>
-      <div class="actions">
-        <button type="button" class="btn-primary" data-profile-action="add-service">서비스 추가</button>
-        <button type="button" class="btn-secondary" data-profile-action="save-draft">초안 저장</button>
-        <button type="button" class="btn-primary" data-profile-action="publish" ${isLive && !dirty ? "disabled" : ""}>${publishLabel}</button>
-        ${isLive ? '<button type="button" class="btn-text" data-profile-action="unpublish">공개 중지</button>' : ""}
-      </div>
-      <p class="note">헬퍼 신청 승인 후 프로필은 바로 고객에게 보여요. 초안 저장은 헬퍼에게만 보이고, 공개하기·변경사항 공개를 누르면 고객 상세에 바로 반영돼요. 공개 중지를 누르면 탐색·상세의 신규 이용 경로에서 내려가요.</p>
     </section>`;
 }
 
@@ -4547,11 +4563,10 @@ function syncHelperCatalogPresence(profile) {
   });
 }
 
-function publishHelperServices() {
+function applyHelperLiveToCustomers(banner) {
   const profile = ensureHelperProfile();
   if (!profile) return;
-  // Profile can stay public with zero services (post-approval). Publishing pushes draft → customers.
-  const wasLive = profile.pageStatus === "published" && profile.published;
+  // Approval already exposes the profile; profile/service edits apply to customers immediately.
   const accountId = ensureAccountId();
   const snapshot = JSON.parse(JSON.stringify(profile.draft));
   const request = {
@@ -4579,12 +4594,15 @@ function publishHelperServices() {
   profile.publishRevisionNote = "";
   if (window.TalkduAdmin) window.TalkduAdmin.upsertPublishRequest(request);
   persistLocal();
-  state.authBanner = wasLive
-    ? "변경사항을 공개했어요. 다른 고객 탐색·상세에 반영돼요."
-    : "프로필·서비스를 공개했어요. 다른 고객 홈·탐색·상세에 보여요.";
+  if (banner) state.authBanner = banner;
+  refreshHelperDiscovery();
+}
+
+function publishHelperServices() {
+  // Legacy alias — edits now apply live without a separate publish step.
+  applyHelperLiveToCustomers("프로필·서비스를 고객 화면에 반영했어요.");
   renderManage();
   fillDraftServiceList();
-  refreshHelperDiscovery();
 }
 
 function unpublishHelperServices() {
@@ -4635,7 +4653,7 @@ function fillDraftServiceList() {
     row.querySelector("span").textContent = `${service.name} · ${service.minutes}분 · ${formatCoins(service.coins)}`;
     wrap.append(row);
   }
-  if (!profile.draft.services.length) wrap.innerHTML = '<p class="meta">등록된 서비스 초안이 없어요.</p>';
+  if (!profile.draft.services.length) wrap.innerHTML = '<p class="meta">아직 등록한 서비스가 없어요.</p>';
 }
 
 function showManage() {
@@ -4849,17 +4867,7 @@ function renderSettings() {
       <button type="button" class="menu-item" disabled><span>알림 설정</span><span class="menu-item-meta">준비 중</span></button>
       <button type="button" class="menu-item" disabled><span>계정 관리</span><span class="menu-item-meta">준비 중</span></button>
     </div>
-    <section class="dev-test-box">
-      <h3>개발용 테스트</h3>
-      <p class="note" style="margin-top:6px">헬퍼 신청 승인은 운영자 페이지에서 처리하고, 서비스 공개·수정은 헬퍼 관리 탭에서 직접 해요.</p>
-      <a class="btn-secondary" href="./email/index.html" style="display:inline-flex;margin:6px 0 10px">이메일·운영자 로그인 열기</a>
-      <button type="button" class="btn-text" data-dev="booking-open">시간 예약 · 접수 중</button>
-      <button type="button" class="btn-text" data-dev="booking-pause">시간 예약 · 일시 중지</button>
-      <button type="button" class="btn-text" data-dev="online">헬퍼 · 온라인</button>
-      <button type="button" class="btn-text" data-dev="offline">헬퍼 · 오프라인</button>
-      <button type="button" class="btn-text" data-dev="busy-clear">상담 중 해제</button>
-      <p class="note">현재: 신청 ${state.helperApplication ? helperStatusLabel(state.helperApplication.status) : "없음"} · 페이지 ${profile ? (profile.pageStatus === "published" ? "공개 중" : "준비 중") : "-"} · 공개검토 ${profile?.publishStatus || "-"} · 시간예약 ${profile ? (profile.scheduleOpen ? "열림" : "중지") : "-"} · 상태 ${profile ? presenceLabel(profile) : "-"}</p>
-    </section>`;
+    <p class="note" style="margin-top:16px">데모에서는 헬퍼 신청·공개 흐름을 화면으로만 확인할 수 있어요.${profile ? ` 현재 페이지: ${profile.pageStatus === "published" ? "공개 중" : "준비 중"} · 상태: ${presenceLabel(profile)}` : ""}</p>`;
   settingsMain.querySelector('[data-action="toggle-login"] span').textContent = state.loggedIn ? "로그아웃 (예시)" : "로그인 (예시)";
 }
 
@@ -4878,7 +4886,7 @@ function renderSupport() {
     </section>
     <div class="menu-list">
       <button type="button" class="menu-item" disabled><span>자주 묻는 질문</span><span class="menu-item-meta">준비 중</span></button>
-      <button type="button" class="menu-item" disabled><span>1:1 문의</span><span class="menu-item-meta">준비 중</span></button>
+      <button type="button" class="menu-item" disabled><span>문의하기</span><span class="menu-item-meta">준비 중</span></button>
     </div>`;
 }
 
@@ -5888,46 +5896,11 @@ manageMain.addEventListener("click", (event) => {
       return;
     }
     if (action === "edit-profile") {
-      const name = prompt("공개 활동명", profile.draft.publicName || "");
-      if (name != null) profile.draft.publicName = name.trim() || profile.draft.publicName;
-      const intro = prompt("한 줄 소개", profile.draft.intro || "");
-      if (intro != null) profile.draft.intro = intro.trim();
-      const about = prompt("상세 소개", profile.draft.about || "");
-      if (about != null) profile.draft.about = about.trim();
-      persistLocal();
-      renderManage();
-      fillDraftServiceList();
+      openHelperProfileEditor();
       return;
     }
     if (action === "add-service") {
-      const id = "svc-" + Date.now();
-      profile.draft.services.push({
-        id,
-        name: "새 서비스",
-        description: "제공할 내용을 적어 주세요.",
-        minutes: 30,
-        coins: 80,
-        adultRequired: false,
-        modes: ["schedule", "chat"],
-        goodFor: { schedule: ["미리 시간을 잡고 싶은 분"], chat: ["일정 조율이 필요한 분"] },
-      });
-      persistLocal();
-      openServiceEditor(id);
-      return;
-    }
-    if (action === "save-draft") {
-      persistLocal();
-      state.authBanner = "프로필·서비스 초안을 저장했어요. 아직 고객 화면에는 반영되지 않아요.";
-      renderManage();
-      fillDraftServiceList();
-      return;
-    }
-    if (action === "publish" || action === "request-review") {
-      publishHelperServices();
-      return;
-    }
-    if (action === "unpublish") {
-      unpublishHelperServices();
+      openServiceEditor(null, { isNew: true });
       return;
     }
     return;
@@ -6011,14 +5984,63 @@ helperAvailabilityCta.addEventListener("click", (event) => {
   }
 });
 
-function openServiceEditor(serviceId) {
+function blankServiceDraft(id) {
+  return {
+    id,
+    name: "",
+    description: "",
+    minutes: 30,
+    coins: 80,
+    adultRequired: false,
+    modes: ["schedule", "chat"],
+    goodFor: { schedule: [], chat: [] },
+  };
+}
+
+function closeServiceEditor() {
+  state.serviceEditDraft = null;
+  state.serviceEditId = null;
+  state.serviceEditIsNew = false;
+  state.manageSection = "profile";
+  showManage();
+}
+
+function openServiceEditor(serviceId, { isNew = false } = {}) {
   const profile = ensureHelperProfile();
-  const service = profile?.draft.services.find((s) => s.id === serviceId);
-  if (!service) return;
-  state.serviceEditId = serviceId;
-  state.serviceEditDraft = JSON.parse(JSON.stringify(service));
+  if (!profile) return;
+  if (isNew) {
+    const id = "svc-" + Date.now();
+    state.serviceEditId = id;
+    state.serviceEditIsNew = true;
+    state.serviceEditDraft = blankServiceDraft(id);
+  } else {
+    const service = profile.draft.services.find((s) => s.id === serviceId);
+    if (!service) return;
+    state.serviceEditId = serviceId;
+    state.serviceEditIsNew = false;
+    state.serviceEditDraft = JSON.parse(JSON.stringify(service));
+  }
   showView("helperServiceEdit", { immersive: true });
   renderServiceEditor();
+}
+
+function readServiceEditorFields() {
+  const modes = [...(state.serviceEditDraft?.modes || [])];
+  if (!modes.length) modes.push("schedule");
+  const audience = document.getElementById("svc-audience")?.value.trim() || "";
+  const name = document.getElementById("svc-name")?.value.trim() || "";
+  return {
+    name,
+    description: document.getElementById("svc-desc")?.value.trim() || "",
+    minutes: Number(document.getElementById("svc-minutes")?.value) || 30,
+    coins: Number(document.getElementById("svc-coins")?.value) || 80,
+    modes,
+    adultRequired: Boolean(document.getElementById("svc-adult")?.checked),
+    goodFor: {
+      schedule: audience ? [audience] : (state.serviceEditDraft?.goodFor?.schedule || []),
+      chat: audience ? [audience] : (state.serviceEditDraft?.goodFor?.chat || []),
+    },
+  };
 }
 
 function renderServiceEditor() {
@@ -6028,19 +6050,21 @@ function renderServiceEditor() {
   const modes = d.modes || [];
   const schedulePaused = profile && !profile.scheduleOpen;
   const offlineNow = profile && !profile.online;
+  const isNew = state.serviceEditIsNew;
+  if (helperServiceEditTitle) helperServiceEditTitle.textContent = isNew ? "서비스 등록" : "서비스 수정";
   helperServiceEditMain.innerHTML = `
-    <label class="field-label" for="svc-name">서비스명</label>
-    <input class="field-input" id="svc-name" type="text" maxlength="40">
+    <label class="field-label" for="svc-name">서비스 이름</label>
+    <input class="field-input" id="svc-name" type="text" maxlength="40" placeholder="예: 이력서 피드백">
     <label class="field-label" for="svc-audience" style="margin-top:14px">어떤 분께 도움이 되나요</label>
     <textarea class="textarea-input" id="svc-audience" maxlength="200"></textarea>
-    <label class="field-label" for="svc-desc" style="margin-top:14px">고객에게 제공할 내용</label>
-    <textarea class="textarea-input" id="svc-desc" maxlength="400"></textarea>
-    <label class="field-label" for="svc-minutes" style="margin-top:14px">소요 시간(분)</label>
+    <label class="field-label" for="svc-desc" style="margin-top:14px">제공 내용</label>
+    <textarea class="textarea-input" id="svc-desc" maxlength="400" placeholder="고객에게 제공할 내용을 적어 주세요."></textarea>
+    <label class="field-label" for="svc-minutes" style="margin-top:14px">시간(분)</label>
     <input class="field-input" id="svc-minutes" type="number" min="10" max="120">
-    <label class="field-label" for="svc-coins" style="margin-top:14px">코인 가격</label>
+    <label class="field-label" for="svc-coins" style="margin-top:14px">가격(코인)</label>
     <input class="field-input" id="svc-coins" type="number" min="10" max="500">
     <p class="field-label" style="margin-top:16px">고객이 예약하는 방법</p>
-    <p class="note" style="margin-top:6px">하나 또는 둘 다 선택할 수 있어요. 지금 상담은 헬퍼가 온라인일 때만 고객에게 열려요.</p>
+    <p class="note" style="margin-top:6px">하나 또는 둘 다 선택할 수 있어요. 지금 대화는 헬퍼가 온라인일 때만 고객에게 열려요.</p>
     <div class="mode-choice-list" id="svc-mode-choices">
       <button type="button" class="mode-choice${modes.includes("schedule") ? " is-selected" : ""}" data-mode-choice="schedule" aria-pressed="${modes.includes("schedule")}">
         <strong>시간 예약</strong>
@@ -6048,9 +6072,9 @@ function renderServiceEditor() {
         ${schedulePaused ? '<em class="mode-pause">예약 설정에서 시간 예약이 일시 중지 중이에요</em>' : ""}
       </button>
       <button type="button" class="mode-choice${serviceSupportsNow({ modes }) ? " is-selected" : ""}" data-mode-choice="chat" aria-pressed="${serviceSupportsNow({ modes })}">
-        <strong>지금 상담</strong>
-        <span>헬퍼가 온라인일 때 고객이 바로 상담을 요청해요. 수락 후 코인이 차감돼요.</span>
-        ${offlineNow ? '<em class="mode-pause">지금은 오프라인이라 고객에게 지금 상담이 보이지 않아요</em>' : ""}
+        <strong>지금 대화</strong>
+        <span>헬퍼가 온라인일 때 고객이 바로 대화를 요청해요. 수락 후 코인이 차감돼요.</span>
+        ${offlineNow ? '<em class="mode-pause">지금은 오프라인이라 고객에게 지금 대화가 보이지 않아요</em>' : ""}
       </button>
     </div>
     <label style="display:block;margin-top:14px"><input type="checkbox" id="svc-adult"> 성인인증 필요</label>`;
@@ -6061,41 +6085,103 @@ function renderServiceEditor() {
   document.getElementById("svc-coins").value = d.coins || 80;
   document.getElementById("svc-adult").checked = Boolean(d.adultRequired);
   helperServiceEditCta.innerHTML = `
-    <button type="button" class="btn-primary" id="svc-save">초안에 반영</button>
+    <button type="button" class="btn-primary" id="svc-save">${isNew ? "등록하기" : "저장하기"}</button>
     <button type="button" class="btn-text" id="svc-cancel">취소</button>`;
 }
 
-document.getElementById("helper-service-edit-back").addEventListener("click", () => {
-  state.serviceEditDraft = null;
+function openHelperProfileEditor() {
+  const profile = ensureHelperProfile();
+  if (!profile?.draft) return;
+  state.helperProfileEditDraft = {
+    publicName: profile.draft.publicName || "",
+    intro: profile.draft.intro || "",
+    about: profile.draft.about || "",
+  };
+  showView("helperProfileEdit", { immersive: true });
+  renderHelperProfileEditor();
+}
+
+function renderHelperProfileEditor() {
+  const d = state.helperProfileEditDraft;
+  if (!d || !helperProfileEditMain) return;
+  helperProfileEditMain.innerHTML = `
+    <label class="field-label" for="helper-public-name">활동명</label>
+    <input class="field-input" id="helper-public-name" type="text" maxlength="40">
+    <label class="field-label" for="helper-intro" style="margin-top:14px">한 줄 소개</label>
+    <input class="field-input" id="helper-intro" type="text" maxlength="80">
+    <label class="field-label" for="helper-about" style="margin-top:14px">상세 소개</label>
+    <textarea class="textarea-input" id="helper-about" maxlength="600"></textarea>`;
+  document.getElementById("helper-public-name").value = d.publicName || "";
+  document.getElementById("helper-intro").value = d.intro || "";
+  document.getElementById("helper-about").value = d.about || "";
+  helperProfileEditCta.innerHTML = `<button type="button" class="btn-primary" id="helper-profile-save">저장하기</button>`;
+}
+
+function closeHelperProfileEditor() {
+  state.helperProfileEditDraft = null;
   state.manageSection = "profile";
   showManage();
+}
+
+document.getElementById("helper-service-edit-back").addEventListener("click", () => {
+  closeServiceEditor();
 });
 helperServiceEditCta.addEventListener("click", (event) => {
   if (event.target.id === "svc-cancel") {
-    state.serviceEditDraft = null;
-    state.manageSection = "profile";
-    showManage();
+    closeServiceEditor();
     return;
   }
   if (event.target.id !== "svc-save") return;
   const profile = ensureHelperProfile();
-  const target = profile?.draft.services.find((s) => s.id === state.serviceEditId);
-  if (!target) return;
-  const modes = [...(state.serviceEditDraft?.modes || [])];
-  if (!modes.length) modes.push("schedule");
-  const audience = document.getElementById("svc-audience").value.trim();
-  target.name = document.getElementById("svc-name").value.trim() || target.name;
-  target.description = document.getElementById("svc-desc").value.trim();
-  target.minutes = Number(document.getElementById("svc-minutes").value) || 30;
-  target.coins = Number(document.getElementById("svc-coins").value) || 80;
-  target.modes = modes;
-  target.adultRequired = document.getElementById("svc-adult").checked;
-  target.goodFor = {
-    schedule: audience ? [audience] : (target.goodFor?.schedule || []),
-    chat: audience ? [audience] : (target.goodFor?.chat || []),
-  };
-  persistLocal();
+  if (!profile) return;
+  const fields = readServiceEditorFields();
+  if (!fields.name) {
+    state.authBanner = "서비스 이름을 입력해 주세요.";
+    // Keep editor open; show soft notice via alert for required field.
+    window.alert("서비스 이름을 입력해 주세요.");
+    return;
+  }
+  const isNew = state.serviceEditIsNew;
+  let target = profile.draft.services.find((s) => s.id === state.serviceEditId);
+  if (isNew) {
+    if (target) return; // already registered somehow
+    target = { id: state.serviceEditId, ...blankServiceDraft(state.serviceEditId) };
+    profile.draft.services.push(target);
+  } else if (!target) {
+    return;
+  }
+  target.name = fields.name;
+  target.description = fields.description;
+  target.minutes = fields.minutes;
+  target.coins = fields.coins;
+  target.modes = fields.modes;
+  target.adultRequired = fields.adultRequired;
+  target.goodFor = fields.goodFor;
+  applyHelperLiveToCustomers(
+    isNew ? "서비스를 등록했어요. 고객 상세에 바로 보여요." : "서비스를 수정했어요. 고객 화면에 반영됐어요."
+  );
   state.serviceEditDraft = null;
+  state.serviceEditId = null;
+  state.serviceEditIsNew = false;
+  state.manageSection = "profile";
+  showManage();
+});
+
+document.getElementById("helper-profile-edit-back").addEventListener("click", () => {
+  closeHelperProfileEditor();
+});
+helperProfileEditCta.addEventListener("click", (event) => {
+  if (event.target.id !== "helper-profile-save") return;
+  const profile = ensureHelperProfile();
+  if (!profile?.draft) return;
+  const publicName = document.getElementById("helper-public-name")?.value.trim() || "";
+  const intro = document.getElementById("helper-intro")?.value.trim() || "";
+  const about = document.getElementById("helper-about")?.value.trim() || "";
+  profile.draft.publicName = publicName || profile.draft.publicName;
+  profile.draft.intro = intro;
+  profile.draft.about = about;
+  applyHelperLiveToCustomers("프로필을 저장했어요. 고객 화면에 반영됐어요.");
+  state.helperProfileEditDraft = null;
   state.manageSection = "profile";
   showManage();
 });
@@ -6172,7 +6258,7 @@ settingsMain.addEventListener("click", (event) => {
   if (!dev) return;
   const mode = dev.dataset.dev;
   if (!isHelperApproved()) {
-    state.authBanner = "헬퍼 신청이 승인된 뒤에 사용할 수 있어요. 운영자 페이지에서 승인해 주세요.";
+    state.authBanner = "헬퍼 신청이 승인된 뒤에 사용할 수 있어요. 데모에서는 승인 화면이 포함되어 있지 않아요.";
     renderSettings();
     return;
   }
@@ -6309,6 +6395,25 @@ window.addEventListener("storage", (event) => {
     syncAdminDecisions();
   }
 });
-if (state.loggedIn && !state.onboardingDone) showNicknameOnboarding();
-else if (state.loggedIn || state.guestBrowse) showHome();
-else showLogin();
+(function startDemoOrDefault() {
+  const demoRole = (window.TalkduDemo && window.TalkduDemo.role)
+    || new URLSearchParams(location.search).get("demo")
+    || "";
+  if (state.loggedIn && !state.onboardingDone) {
+    showNicknameOnboarding();
+    return;
+  }
+  if (demoRole === "helper" && state.loggedIn && isHelperApproved()) {
+    state.helperMode = true;
+    persistLocal();
+    updateBottomNav();
+    showManage();
+    return;
+  }
+  if (demoRole === "customer" && (state.loggedIn || state.guestBrowse)) {
+    showHome();
+    return;
+  }
+  if (state.loggedIn || state.guestBrowse) showHome();
+  else showLogin();
+})();
